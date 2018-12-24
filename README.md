@@ -24,7 +24,10 @@ To get started, we need to create a dataset. Let's start by running the cell bel
 from sklearn.datasets import make_blobs
 from sklearn.datasets import make_moons
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KernelDensity
+from sklearn.linear_model import LinearRegression
+from sklearn.cross_validation import cross_val_score
 import matplotlib.pyplot as plt
 import numpy as np
 np.random.seed(0)
@@ -35,6 +38,58 @@ import pandas as pd
 To understand how hierarchical clustering works, we'll look at a data set with 16 data points that belong to 3 clusters. 
 
 Run the cell below to create and visualize this dataset. As with the dataset we created in our K-Means lab, our visualization will use different colors to differentiate between each different cluster created. 
+
+
+```python
+X, y = make_blobs(n_samples=1000, n_features=2, centers=2, cluster_std=0.5)
+```
+
+
+```python
+plt.scatter(X[:, 0], X[:, 1])
+```
+
+
+
+
+    <matplotlib.collections.PathCollection at 0x1a16456ba8>
+
+
+
+
+![png](index_files/index_5_1.png)
+
+
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+```
+
+
+```python
+linreg = LinearRegression()
+linreg.fit(X_train, y_train)
+linreg.score(X_test, y_test)
+```
+
+
+
+
+    0.9965809358706226
+
+
+
+
+```python
+cross_val_score(linreg, X, y, cv=5)
+```
+
+
+
+
+    array([0.99575335, 0.996008  , 0.99604623, 0.99647459, 0.99710303])
+
+
 
 
 ```python
